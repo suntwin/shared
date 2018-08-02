@@ -8,7 +8,7 @@ from connection import Connection
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--tag","-t",help="optional parameter which when passed with tag only information, retrieves the resources")
-	parser.add_argument("--value","-v",help="optional parameter which when passed with tag only information, retrieves the resources")
+	parser.add_argument("--value","-v",help="optional parameter which when passed along tag  information, retrieves the resources based on tag and value")
 
 	args = parser.parse_args()
 	
@@ -41,6 +41,9 @@ if __name__ == '__main__':
 		#print("inside args tag",args.tag)
 		res_list = res.get_ec2_resources_on_taginfo(key=args.tag,value=args.value)
 		print(res_list)
+	if(args.value!=None and args.tag==None):
+		print("A tag key must be between 1 and 127 characters in length. See --help for usage")
+		exit(1)
 
 
 
