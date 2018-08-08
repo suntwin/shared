@@ -38,7 +38,7 @@ class Res:
 						print("Tags[Key]",tags['Key'])
 						if (key == tags['Key']):
 							instance_list.append(instance.id)
-							print("found instance with key",key)
+							#print("found instance with key",key)
 
 
 		if ("key" in kwargs and "value" in kwargs):
