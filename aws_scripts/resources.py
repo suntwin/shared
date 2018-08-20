@@ -38,7 +38,7 @@ class Res:
 			print("inside tagonly")
 			key = kwargs['tagonly']
 			#print("i am in tag only")
-			print("key is",type(key))
+			#print("key is",type(key))
 			for k in key:
 				
 				for instance in instances:
@@ -50,7 +50,7 @@ class Res:
 							
 
 							if (k == tags['Key']):
-								print("k is",k,"tags is",tags['Key'])
+								#print("k is",k,"tags is",tags['Key'])
 								instance_list.append({
 									"instance-id":instance.id,
 									"instance-type":instance.instance_type,
@@ -77,9 +77,9 @@ class Res:
 						for tags in instance.tags:
 							#print("key is",key)
 							#print("Tags[Key]",tags['Key'])
-							print("k is",l1[0],"v is",l1[1])
+							#print("k is",l1[0],"v is",l1[1])
 							if (l1[0] == tags['Key'] and l1[1] == tags['Value']):
-								print("l10",l1[0],"l11",l1[1])
+								#print("l10",l1[0],"l11",l1[1])
 								instance_list.append({
 									"instance-id":instance.id,
 									"instance-type":instance.instance_type,
@@ -126,7 +126,7 @@ def get_rds_resources_on_taginfo(self,**kwargs):
 			print("inside tagonly")
 			key = kwargs['tagonly']
 			#print("i am in tag only")
-			print("key is",type(key))
+			#print("key is",type(key))
 			for k in key:
 				
 				for instance in instances:
@@ -138,7 +138,7 @@ def get_rds_resources_on_taginfo(self,**kwargs):
 							
 
 							if (k == tags['Key']):
-								print("k is",k,"tags is",tags['Key'])
+								#print("k is",k,"tags is",tags['Key'])
 								instance_list.append({
 									"instance-id":instance.id,
 									"instance-type":instance.instance_type,
@@ -159,15 +159,15 @@ def get_rds_resources_on_taginfo(self,**kwargs):
 			l = ([(k, v) for k in key for v in value])
 
 			for l1 in l:
-				print("inside tagkey and value")
+				#print("inside tagkey and value")
 				for instance in instances:
 					if(instance.tags != None):
 						for tags in instance.tags:
 							#print("key is",key)
 							#print("Tags[Key]",tags['Key'])
-							print("k is",l1[0],"v is",l1[1])
+							#print("k is",l1[0],"v is",l1[1])
 							if (l1[0] == tags['Key'] and l1[1] == tags['Value']):
-								print("l10",l1[0],"l11",l1[1])
+								#print("l10",l1[0],"l11",l1[1])
 								instance_list.append({
 									"instance-id":instance.id,
 									"instance-type":instance.instance_type,
@@ -175,7 +175,7 @@ def get_rds_resources_on_taginfo(self,**kwargs):
 									"tagkey":l1[0],
 									"tagvalue":l1[1],
 									})
-								#print("found instance with key",key)
+								
 
 		return(instance_list)
 
