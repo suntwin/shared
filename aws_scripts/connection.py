@@ -5,9 +5,13 @@ import botocore
 
 class Connection:
 
-	def __init__(self,region_name,profile_name):
+	def __init__(self,region_name,profile_name,conn_type):
 		try:
-			self.session = boto3.Session(region_name=region_name,profile_name=profile_name)
+			if(conn_type=="session"):
+				self.session = boto3.Session(region_name=region_name,profile_name=profile_name)
+			if(conn_type!="session"):
+				self.session = boto3.client(conn_type)
+
 		except botocore.exceptions.BotoCoreError as e:
 			raise Exception(e)
 

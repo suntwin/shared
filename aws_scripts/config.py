@@ -6,4 +6,11 @@ settings = {
   "region_name":"ap-southeast-2",
   "profile_name":"default",
   "my_profile":"",
+  "input_file":"\\tags.csv",
+  "input_file_fields":"tagkey,tagvalue",
+  "output_file1":"\\taginfo.csv",
+  "output_file2":"\\alltags.csv",
+  "resource_output_fields":"instance-id,instance-type,instance-state,tagkey,tagvalue",
+  "tag_output_fields":"instance-id,instance-name1,tagkey,tagvalue",
+  "ABS_PATH": "/travis/aws_scripts/",
 }
