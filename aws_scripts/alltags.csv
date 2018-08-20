@@ -1,0 +1,6 @@
+instance-id,instance-type,instance-state,tagkey,tagvalue
+i-03d0461f8b8d5d8ed,t2.micro,stopped,Name,myDatabaseServer
+i-0f0382cd5ca56a87c,t2.micro,stopped,Name,niteshintance
+i-0f0382cd5ca56a87c,t2.micro,stopped,jamna,bajaj
+i-0f0382cd5ca56a87c,t2.micro,stopped,travis,nitesh
+i-052b25e917aba7281,t2.micro,stopped,Name,mywebserverself
