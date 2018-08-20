@@ -1,0 +1,3 @@
+arn,Key,Value
+arn:aws:rds:ap-southeast-2:171331772601:db:niteshdb,jamna,bajaj
+arn:aws:rds:ap-southeast-2:171331772601:db:niteshdb,workload-type,other

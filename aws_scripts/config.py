@@ -10,7 +10,10 @@ settings = {
   "input_file_fields":"tagkey,tagvalue",
   "output_file1":"\\taginfo.csv",
   "output_file2":"\\alltags.csv",
+  "rds_output_file1":"\\rds_taginfo.csv",
+  "rds_output_file2":"\\alltags_rds.csv",
   "resource_output_fields":"instance-id,instance-type,instance-state,tagkey,tagvalue",
+  "rds_output_fields":"arn,Key,Value",
   "tag_output_fields":"instance-id,instance-name1,tagkey,tagvalue",
   "ABS_PATH": "/travis/aws_scripts/",
 }

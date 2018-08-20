@@ -1,5 +1,6 @@
 import argparse
 import sys
+import os
 import config as cfg
 from resources import Res
 from connection import Connection
@@ -19,7 +20,7 @@ try:
 		args = parser.parse_args()
 		region_name = cfg.settings['region_name']
 		profile_name = args.profile
-		print("arguments are",args)
+		#print("arguments are",args)
 
 		# files information
 		abspath = cfg.settings['ABS_PATH']
@@ -52,12 +53,12 @@ try:
 				print(res_list)
 		# if the script runs with only tag key and no value
 			if(args.tag and args.value==None):
-				print("inside args tag",args.tag)
+				#print("inside args tag",args.tag)
 				res_list = res.get_ec2_resources_on_taginfo(tagonly=args.tag)
 				print(res_list)
 		# if the script runs with both tag key and  value
 			if(args.tag and args.value):
-				print("inside args tag value",args.tag,args.value)
+				#print("inside args tag value",args.tag,args.value)
 				res_list = res.get_ec2_resources_on_taginfo(key=args.tag,value=args.value)
 				print(res_list)
 		# if the script runs in batch file mode
@@ -81,7 +82,7 @@ try:
 						if(key[0]!='' and value[0]!=''):
 							res_list = res.get_ec2_resources_on_taginfo(key=key,value=value)
 						if(key[0]!='' and value[0]==''):
-							print("After key2")
+							
 							res_list = res.get_ec2_resources_on_taginfo(tagonly=key)
 						#write the res_list to the file
 						for row in res_list:
@@ -94,7 +95,7 @@ try:
 					csvwriter = CsvWriter(abspath,tags_output_file,fieldnames_resource_output)
 					csvwriter.writefile_header()
 					res_list = res.get_ec2_resources_on_taginfo(taginfo="notag")
-			
+					
 					#write the res_list to the file
 					for row in res_list:
 						csvwriter.writefile_row(row)
@@ -106,6 +107,11 @@ try:
 			
 			# get the client typ
 			client = conn.get_session()
+
+			# read config
+			rds_output_file2 = cfg.settings['rds_output_file2']
+			fieldnames_rds_output = cfg.settings['rds_output_fields']
+			rds_output_file1 = cfg.settings['rds_output_file1']
 			
 			# get the instance of the client resource
 			client_resource = Client_Resources(client)
@@ -113,69 +119,69 @@ try:
 			rds_arn_list = client_resource.get_arns_rds_instances(dbinst_list)
 			rds_taglist = client_resource.get_tags_on_rds_arns(rds_arn_list)
 
-			print(rds_taglist)
+			
 	
 		# if the script runs with only tag key and no value
 			if(args.tag and args.value==None):
-				print("inside args tag",args.tag)
 				
+				res_list=[]
+				for tag in rds_taglist:
+					if(tag['Key'] in args.tag):
+						res_list.append(tag)
+				print(res_list)
 
-				#print(res_list)
+				
 		# # if the script runs with both tag key and  value
-		# 	if(args.tag and args.value):
-		# 		print("inside args tag value",args.tag,args.value)
-		# 		res_list = res.get_rds_resources_on_taginfo(key=args.tag,value=args.value)
-		# 		print(res_list)
+			if(args.tag and args.value):
+		 		
+		 		res_list=[]
+				for tag in rds_taglist:
+					if(tag['Key'] in args.tag and tag['Value'] in args.value):
+						res_list.append(tag)
+				print(res_list)
+	
+
 		# # if the script runs in batch file mode
-		# 	if(args.file):
-		# 		if(args.file=="get"):
+			if(args.file):
+				if(args.file=="get"):
 
-		# 			#read the input file
-		# 			result_list=[]
-		# 			csvreader = CsvReader(abspath,tag_input_file,fieldnames_tag_input)
-		# 			csvwriter = CsvWriter(abspath,resources_output_file,fieldnames_resource_output)
-		# 			csvwriter.writefile_header()
-		# 			data_list = csvreader.readrows()
-		# 			for row in data_list:
-		# 				res_list=[]
-		# 				key=[]
-		# 				value=[]
+					#read the input file
+					result_list=[]
+					csvreader = CsvReader(abspath,tag_input_file,fieldnames_tag_input)
+					csvwriter = CsvWriter(abspath,rds_output_file1,fieldnames_rds_output)
+					csvwriter.writefile_header()
+					data_list = csvreader.readrows()
+					for row in data_list:
+						res_list=[]
+						key=[]
+						value=[]
 						
-		# 				key.append(row['tagkey'])
+						key.append(row['tagkey'])
 						
-		# 				value.append(row['tagvalue'])
-		# 				if(key[0]!='' and value[0]!=''):
-		# 					res_list = res.get_rds_resources_on_taginfo(key=key,value=value)
-		# 				if(key[0]!='' and value[0]==''):
-		# 					print("After key2")
-		# 					res_list = res.get_rds_resources_on_taginfo(tagonly=key)
-		# 				#write the res_list to the file
-		# 				for row in res_list:
-		# 					csvwriter.writefile_row(row)
+						value.append(row['tagvalue'])
+						if(key[0]!='' and value[0]!=''):
+							for tag in rds_taglist:
+								#print("tag is",tag)
+								if(tag['Key'] == key[0] and tag['Value'] in value[0]):
+									res_list.append(tag)
+							
+						if(key[0]!='' and value[0]==''):
+							for tag in rds_taglist:
+								if(tag['Key'] == key[0]):
+									res_list.append(tag)
+							
+						#write the res_list to the file
+						for row in res_list:
+							csvwriter.writefile_row(row)
+					print("Retrieved all tags based on tag input file and File updated",os.path.abspath(abspath)+rds_output_file1)
 
-		# 		if(args.file=="dump"):
-				
-		# 			result_list=[]
-					
-		# 			csvwriter = CsvWriter(abspath,tags_output_file,fieldnames_resource_output)
-		# 			csvwriter.writefile_header()
-		# 			res_list = res.get_rds_resources_on_taginfo(taginfo="notag")
-			
-		# 			#write the res_list to the file
-		# 			for row in res_list:
-		# 				csvwriter.writefile_row(row)
+			if(args.file=="dump"):	
+					csvwriter = CsvWriter(abspath,rds_output_file2,fieldnames_rds_output)
+					csvwriter.writefile_header()		
+					#write the rds_list to the file
+					for row in rds_taglist:
+						#print("row is",row)
+						csvwriter.writefile_row(row)
+					print("File updated with all tags",os.path.abspath(abspath)+rds_output_file2)
 except Exception as e:
 	print(e.message)
-
-
-
-
-
-
-
-
-
-
-
-
-
